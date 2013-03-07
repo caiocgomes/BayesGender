@@ -11,18 +11,18 @@ numNames = len(data.keys())
 
 
 def likelihood(gender, name, alpha = 0.5):
-    countMale, countFemale = data[name]
+    countMale, countFemale = data.get(name, (0.0, 0.0))
     count = countMale if gender == 'male' else countFemale
     total = totalMale if gender == 'male' else totalFemale
-    return (count + alpha) / (total + numNames * alpha)
+    return float(count + alpha) / float(total + numNames * alpha)
 
 def prior(gender, alpha = 0.5):
     total = totalMale if gender == 'male' else totalFemale
-    return (total + alpha) / (totalMale + totalFemale + 2 * alpha)
+    return float(total + alpha) / float(totalMale + totalFemale + 2 * alpha)
 
 def probMale(name, alpha = 0.5):
     likelyMale = likelihood('male', name, alpha = alpha)
     likelyFemale = likelihood('female', name, alpha = alpha)
     priorMale = prior('male', alpha = alpha)
     priorFemale = prior('female', alpha = alpha)
-    return likelyMale * priorMale / (likelyMale * priorMale + likelyFemale * priorFemale)
+    return float(likelyMale * priorMale )/ float(likelyMale * priorMale + likelyFemale * priorFemale)
